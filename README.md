@@ -121,6 +121,7 @@ import hashlib
 import string
 import itertools
 
+# string containing characters to use in bruteforcing
 chars = string.ascii_lowercase + ' ' + string.ascii_uppercase
 
 def md5(str):
