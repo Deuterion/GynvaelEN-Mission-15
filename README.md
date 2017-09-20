@@ -69,7 +69,7 @@ for byte in bytes:
 ```
 
 
-###Output:
+### Output:
 ``` php
 <?php
 
@@ -139,7 +139,7 @@ for i in itertools.product(chars, repeat = 5):
 		print("Password [%i] is %s!!!" % (hashes.index(hash),key))
 ```
 
-###Output:
+### Output:
 ```
 Password [3] is b'delic'!!!
 Password [1] is b'harts'!!!
@@ -169,6 +169,6 @@ A few seconds later:
 Password [4] is b'ious!'!!!
 ```
 
-###Password: Pie charts are delicious!
+### Password: Pie charts are delicious!
 
 
