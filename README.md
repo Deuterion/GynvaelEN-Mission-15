@@ -24,3 +24,5 @@
 >P.S. I'll show/explain the solution on the stream in ~one week.
 
 
+![ScreenShot](https://raw.githubusercontent.com/Deuterion/GynvaelEN-Mission-15/master/chartgray.bmp)
+
