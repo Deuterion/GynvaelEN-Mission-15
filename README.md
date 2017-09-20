@@ -24,7 +24,7 @@
 >P.S. I'll show/explain the solution on the stream in ~one week.
 
 My first thought was that each line on chart represent some byte value
-To my my analysis easier i first rotated cut the image, then using GIMP saved it
+To make my analysis easier i first rotated and cut the image, then using GIMP saved it
 as a .data file using two-color palette so the image looks like this:
 
 
@@ -41,16 +41,16 @@ Now looking at the portion of binary data we see that black pixel is represented
 
 ```
 
-It was to to write a simple python script 
+It was time to write a simple python script. 
 I deliberately rotated the image so every "line" (which was in fact 125 wide string of bytes)
-represented a single byte value
+represented a single byte value.
 ``` python
 import os
 
 f = open('mission_data','rb')
 data = f.read()
 f.close()
-width = 125 
+width = 125 # The width of modified image
 
 bytes = []
 
@@ -70,7 +70,7 @@ for byte in bytes:
 
 
 ###Output:
-```
+``` php
 <?php
 
 if (!isset($_GET['password']) || !is_string($_GET['password'])) {
