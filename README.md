@@ -23,7 +23,7 @@
 >
 >P.S. I'll show/explain the solution on the stream in ~one week.
 
-My first thought was that each line on chart represent some byte value
+My first thought was that each line on chart represent some byte value.
 To make my analysis easier i first rotated and cut the image, then using GIMP saved it
 as a .data file using two-color palette so the image looks like this:
 
@@ -34,7 +34,7 @@ as a .data file using two-color palette so the image looks like this:
 
 
 Now looking at the portion of binary data we see that black pixel is represented as single
-0x00 byte and white as 0x01
+0x00 byte and white as 0x01.
 
 ```
 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 01 01 01 01 01 01 01 01 01 01 01 01 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 01 01 01 01 01 01 01 01 01 01 01 01 01 00 00 00 00 00
@@ -108,3 +108,67 @@ die("GW!");
 ```
 
 Bingo!
+
+So the password is 25 characters long. I figured that bruteforcing entire password may be futile
+so i looked further.
+
+Ok, it seems that every 5-char chunk of password is being md5-ed.
+This is far easier to do so let's write another python script.
+I first took into consideration ASCII letters + space
+
+``` python
+import hashlib
+import string
+import itertools
+
+chars = string.ascii_lowercase + ' ' + string.ascii_uppercase
+
+def md5(str):
+	return hashlib.md5(str).hexdigest()
+
+hashes = ['e6d9fe6df8fd2a07ca6636729d4a615a',
+		'273e97dc41693b152c71715d099a1049',
+		'bd014fafb6f235929c73a6e9d5f1e458',
+		'ab892a96d92d434432d23429483c0a39',
+		'b56a807858d5948a4e4604c117a62c2d']
+
+for i in itertools.product(chars, repeat = 5):
+	key = (''.join(i)).encode("ascii")
+	hash = md5(key)
+	if hash in hashes:
+		print("Password [%i] is %s!!!" % (hashes.index(hash),key))
+```
+
+###Output:
+```
+Password [3] is b'delic'!!!
+Password [1] is b'harts'!!!
+Password [2] is b' are '!!!
+Password [0] is b'Pie c'!!!
+```
+
+So 5th chunk couldn't be found, are we missing characters?
+
+Password: Pie charts are delic?????
+
+
+The last chunk has to be 'ious', but thats just 4 letters.
+
+A number wouldn't fit there so it's a special character. Maybe "!"?
+
+Let's change 
+```python
+chars = string.ascii_lowercase + ' ' + string.ascii_uppercase
+```
+to
+```python
+chars = '!' + string.ascii_uppercase
+```
+A few seconds later:
+```
+Password [4] is b'ious!'!!!
+```
+
+###Password: Pie charts are delicious!
+
+
