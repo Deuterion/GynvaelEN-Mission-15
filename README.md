@@ -23,7 +23,7 @@
 >
 >P.S. I'll show/explain the solution on the stream in ~one week.
 
-My first thought was that each line on chart represent some byte value.
+My first thought was that each line on chart represents some byte value.
 To make my analysis easier i first rotated and cut the image, then using GIMP saved it
 as a .data file using two-color palette so the image looks like this:
 
@@ -114,7 +114,7 @@ so i looked further.
 
 Ok, it seems that every 5-char chunk of password is being md5-ed.
 This is far easier to do so let's write another python script.
-I first took into consideration ASCII letters + space
+I first took into consideration ASCII letters + space.
 
 ``` python
 import hashlib
@@ -152,7 +152,7 @@ So 5th chunk couldn't be found, are we missing characters?
 Password: Pie charts are delic?????
 
 
-The last chunk has to be 'ious', but thats just 4 letters.
+The last chunk has to be 'ious', but that's just 4 letters.
 
 A number wouldn't fit there so it's a special character. Maybe "!"?
 
