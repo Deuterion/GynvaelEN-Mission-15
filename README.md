@@ -47,6 +47,7 @@ represented a single byte value.
 ``` python
 import os
 
+# First read .data file
 f = open('mission_data','rb')
 data = f.read()
 f.close()
