@@ -55,12 +55,17 @@ width = 125 # The width of modified image
 bytes = []
 
 for i in range(int(len(data)/width)):
+	byte_set = False
 	for j in range(width):
 		if(data[i * width + j] != 0x00):
 			# We reached the white pixel
 			# so the length is our byte value 
 			bytes.append(j)
+			byte_set = True
 			break
+	# If whole line is black
+	if not byte_set:
+		bytes.append(width)
 
 
 for byte in bytes:
@@ -75,17 +80,17 @@ for byte in bytes:
 
 if (!isset($_GET['password']) || !is_string($_GET['password'])) {
   die("bad password");
-
+}
 
 $p = $_GET['password'];
 
 if (strlen($p) !== 25) {
   die("bad password");
-
+}
 
 if (md5($p) !== 'e66c97b8837d0328f3e5522ebb058f85') {
   die("bad password");
-
+}
 
 // Split the password in five and check the pieces.
 // We need to be sure!
@@ -100,8 +105,8 @@ $values = array(
 for ($i = 0; $i < 25; $i += 5) {
   if (md5(substr($p, $i, 5)) !== $values[$i]) {
     die("bad password");
-  
-
+  }
+}
 
 die("GW!");
 
