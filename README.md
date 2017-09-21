@@ -168,7 +168,7 @@ chars = string.ascii_lowercase + ' ' + string.ascii_uppercase
 ```
 to
 ```python
-chars = '!' + string.ascii_uppercase
+chars = '!' + string.ascii_lowercase
 ```
 A few seconds later:
 ```
