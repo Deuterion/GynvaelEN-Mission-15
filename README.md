@@ -33,6 +33,7 @@ as a .data file using two-color palette so the image looks like this:
 ![ScreenShot](https://raw.githubusercontent.com/Deuterion/GynvaelEN-Mission-15/master/chartgray.bmp)
 
 
+
 Now looking at the portion of binary data we see that black pixel is represented as single
 0x00 byte and white as 0x01.
 
